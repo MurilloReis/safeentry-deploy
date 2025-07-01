@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # Serviço para o banco de dados PostgreSQL
+  db:
+    image: postgres:13
+    container_name: safeentry-db
+    environment:
+      POSTGRES_DB: safeentrydb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  # Microsserviço de Autenticação
+  auth-api:
+    build:
+      context: ./SafeEntryAuth
+      dockerfile: Dockerfile
+    container_name: safeentry-auth
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/safeentrydb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # Microsserviço de Agendamentos
+  visit-api:
+    build:
+      context: ./SafeEntryVisit
+      dockerfile: Dockerfile
+    container_name: safeentry-visit
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/safeentrydb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # Microsserviço de Entradas
+  gate-api:
+    build:
+      context: ./SafeEntryGate
+      dockerfile: Dockerfile
+    container_name: safeentry-gate
+    ports:
+      - "8083:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/safeentrydb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  db_data:
