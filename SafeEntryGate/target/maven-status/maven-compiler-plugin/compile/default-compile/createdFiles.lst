@@ -1,0 +1,16 @@
+com\safeentry\Gate\repository\EntradaRepository.class
+com\safeentry\Gate\config\JwtRequestFilter.class
+com\safeentry\Gate\service\EntradaService.class
+com\safeentry\Gate\config\SecurityConfig.class
+com\safeentry\Gate\util\JwtUtil.class
+com\safeentry\Gate\dto\EntradaResponse.class
+com\safeentry\Gate\dto\VisitServiceAgendamentoResponse$VisitanteInfo.class
+com\safeentry\Gate\config\WebConfig.class
+com\safeentry\Gate\model\Entrada.class
+com\safeentry\Gate\SafeEntryGateApplication.class
+com\safeentry\Gate\dto\EntradaRequest.class
+com\safeentry\Gate\listener\AgendamentoKafkaListener.class
+com\safeentry\Gate\config\KafkaConsumerConfig.class
+com\safeentry\Gate\dto\VisitServiceAgendamentoResponse.class
+com\safeentry\Gate\service\VisitServiceCommunicator.class
+com\safeentry\Gate\controller\EntradaController.class

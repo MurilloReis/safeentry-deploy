@@ -1,4 +1,5 @@
 com\safeentry\Visits\model\AgendamentoStatus.class
+com\safeentry\Visits\config\KafkaProducerConfig.class
 com\safeentry\Visits\model\Agendamento.class
 com\safeentry\Visits\model\VisitanteInfo.class
 com\safeentry\Visits\SafeEntryVisitsApplication.class

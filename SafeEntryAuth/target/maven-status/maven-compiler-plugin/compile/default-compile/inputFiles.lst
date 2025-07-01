@@ -1,0 +1,15 @@
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\config\AppConfig.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\config\JwtRequestFilter.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\config\SecurityConfig.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\config\WebConfig.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\controller\AuthController.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\dto\AuthRequest.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\dto\AuthResponse.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\dto\RegisterRequest.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\dto\UserDTO.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\model\User.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\model\UserType.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\repository\UserRepository.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\SafeEntryAuthApplication.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\service\UserService.java
+D:\Projetos\Nova pasta\safeentry-deploy\SafeEntryAuth\src\main\java\com\safeentry\Auth\util\JwtUtil.java
