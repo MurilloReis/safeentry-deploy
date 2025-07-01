@@ -1,0 +1,51 @@
+name: Deploy SafeEntry APIs # Nome do seu workflow (aparece na aba Actions)
+
+on:
+  push:
+    branches:
+      - main # Este workflow será acionado SEMPRE que houver um 'git push' na branch 'main' do seu repositório 'safeentry-deploy'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Define que este job rodará em uma máquina virtual Linux (Ubuntu) fornecida pelo GitHub Actions
+
+    steps:
+    - name: Checkout code # Passo 1: Baixa o código do seu repositório 'safeentry-deploy' para a máquina virtual temporária do GitHub Actions
+      uses: actions/checkout@v3
+
+    - name: Set up SSH # Passo 2: Configura a conexão SSH usando a chave privada que você armazenou como segredo
+      run: |
+        mkdir -p ~/.ssh # Cria a pasta .ssh se ela não existir
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa # Salva a chave privada do GitHub Secrets em um arquivo temporário
+        chmod 600 ~/.ssh/id_rsa # Define as permissões corretas para a chave privada (somente o dono pode ler/escrever)
+        # Adiciona a chave pública do seu servidor (VM) ao arquivo known_hosts para evitar prompts de confirmação na primeira conexão SSH
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Connect to VM and Deploy # Passo 3: Conecta-se à sua VM e executa os comandos de deploy
+      env: # Define variáveis de ambiente para este passo, usando os segredos do GitHub
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+        SSH_PRIVATE_KEY_PATH: ~/.ssh/id_rsa # Caminho para a chave privada que acabamos de configurar
+      run: |
+        # Acessa a VM via SSH e executa os comandos dentro dela
+        ssh -i "$SSH_PRIVATE_KEY_PATH" "$SSH_USERNAME"@"$SSH_HOST" << 'EOF'
+          # Garante que a pasta do projeto exista na VM
+          mkdir -p /home/ubuntu/safeentry-deploy
+          cd /home/ubuntu/safeentry-deploy
+
+          # Baixa as últimas alterações do seu repositório 'safeentry-deploy' do GitHub para a pasta na VM
+          # Na primeira vez que este workflow rodar, o git clone ainda não existirá na VM, mas o push irá acontecer e ele tentará rodar
+          # O ideal é que na *primeira* execução bem-sucedida do deploy, você já tenha o repositório clonado manualmente na VM,
+          # para que o 'git pull' tenha um repositório existente para atualizar. Veremos isso na próxima parte (Parte 4).
+          git pull origin main
+
+          # Constrói e reinicia os serviços Docker na VM
+          # 'docker-compose down': Para e remove os contêineres antigos
+          # 'docker-compose build': Constrói novas imagens Docker com base no código atualizado (e no .jar que você copiou/compilou)
+          # 'docker-compose up -d': Sobe os novos contêineres em modo 'detached' (em segundo plano)
+          docker-compose down
+          docker-compose build
+          docker-compose up -d
+
+          echo "Deploy concluído!" # Mensagem para o log do GitHub Actions
+        EOF
